@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,44 +8,50 @@
     <title>Calculator</title>
     <link rel="shortcut icon" href="static/favicon.svg" type="image/svg">
     <link rel="stylesheet" href="static/stylesheet.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
+    <script src="/script/script.js" defer></script>
 </head>
+
 <body>
     <div id="calculatorContainer">
         <div id="textContainer">
-            <div></div>
-            <div></div>
+            <div id="previousProcess"></div>
+            <div id="currentProcess"></div>
         </div>
         <div id="computationContainer">
             <div>
-                <div>Clear</div>
-                <div>Delete</div>
+                <div id="clearBtn">Clear</div>
+                <div id="deleteBtn">Delete</div>
             </div>
             <div>
-                <div>7</div>
-                <div>8</div>
-                <div>9</div>
-                <div>&#247;</div>
+                <div class="computationBtn">7</div>
+                <div class="computationBtn">8</div>
+                <div class="computationBtn">9</div>
+                <div class="computationBtn">&#247;</div>
             </div>
             <div>
-                <div>4</div>
-                <div>5</div>
-                <div>6</div>
-                <div>x</div>
+                <div class="computationBtn">4</div>
+                <div class="computationBtn">5</div>
+                <div class="computationBtn">6</div>
+                <div class="computationBtn">x</div>
             </div>
             <div>
-                <div>1</div>
-                <div>2</div>
-                <div>3</div>
-                <div>-</div>
+                <div class="computationBtn">1</div>
+                <div class="computationBtn">2</div>
+                <div class="computationBtn">3</div>
+                <div class="computationBtn">-</div>
             </div>
             <div>
-                <div>.</div>
-                <div>0</div>
+                <div class="computationBtn">.</div>
+                <div class="computationBtn">0</div>
                 <div id="equalBtn">=</div>
-                <div>+</div>
+                <div class="computationBtn">+</div>
             </div>
         </div>
     </div>
     <div id="footerContainer">&copy;2021, Can Özsoy</div>
 </body>
+
 </html>

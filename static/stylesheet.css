@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Mukta', sans-serif;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
     align-items: center;
     min-width: 100vw;
     min-height: 100vh;
+    background-color: gainsboro;
 }
 
 #calculatorContainer {
@@ -24,6 +26,7 @@ body {
     box-shadow: 0px 5px 14px #3d3d3d;
     color: antiquewhite;
     margin-top: auto;
+    gap: 20px;
 }
 
 #footerContainer {
@@ -33,10 +36,15 @@ body {
 
 #textContainer {
     flex: 0 1 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
 }
 
 #textContainer div {
     display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
 }
 
 #computationContainer {
@@ -67,10 +75,41 @@ body {
     background-color: #6d6d6d;
 }
 
+#computationContainer div div:active {
+    cursor: pointer;
+    background-color: #383838;
+}
+
 #computationContainer #equalBtn {
     background-color: #366337;
 }
 
 #computationContainer #equalBtn:hover {
     background-color: #4d8e4e;
+}
+
+#computationContainer #clearBtn {
+    background-color: #d66f02;
+}
+
+#computationContainer #clearBtn:hover {
+    background-color: #f78204;
+}
+
+#textContainer div {
+    background-color: #545454;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 5px;
+}
+
+#currentProcess {
+    font-size: 26px;
+    flex: 1;
+}
+
+#previousProcess {
+    font-size: 16px;
+    flex: 0 1 40%;
 }
