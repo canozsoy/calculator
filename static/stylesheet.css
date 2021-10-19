@@ -39,12 +39,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px 0;
-}
-
-#textContainer div {
-    display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
+    overflow-x: auto;
 }
 
 #computationContainer {
@@ -96,12 +91,19 @@ body {
     background-color: #f78204;
 }
 
-#textContainer div {
+#wrapper {
+    flex: 1;
+    min-width: min-content;
+    display: flex;
+}
+
+#wrapper div {
     background-color: #545454;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     padding: 5px;
+
 }
 
 #currentProcess {
