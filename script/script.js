@@ -22,23 +22,38 @@ class Calculator {
         this.val1 = val1;
         this.val2 = val2;
     }
-    add() {
+    "+"() {
         return this.val1 + this.val2;
     }
-    subtract() {
+    "-"() {
         return this.val1 - this.val2;
     }
-    multiply() {
+    x() {
         return this.val1 * this.val2;
     }
-    divide() {
+    "\u00f7"() {
         return this.val1 / this.val2;
     }
 }
 
 
 function onKeyUp(event) {
-    const key = event.key;
+    let key = event.key;
+    const listOfOperations = ["+", "-", "*", "/"];
+    if (key === "Backspace") {
+        deleteLast();
+    } else if (listOfOperations.includes(key)) {
+        if (key === "*") {
+            key = "x";
+        } else if (key === "/") {
+            key = "\u00f7";
+        }
+        currentText.textContent += key;
+    } else if (/\d+/.test(key)) {
+        currentText.textContent += key;
+    } else if (key === "=" || key === "Enter") {
+        evaluateExpression();
+    }
 }
 
 function deleteLast() {
@@ -55,9 +70,16 @@ function btnPress(event) {
     currentText.textContent += content;
 }
 
+function equationParser(expression) {
+    const operationPrecedance = ["-", "+", "x", "\u00f7"];
+    expression = expression.replace(/s/g);
+    const asdf = new Calculator(2, 2);
+    console.log(asdf);
+
+}
+
 function evaluateExpression() {
     let equation = currentText.textContent;
-    equation = equation.replace(/\s/g);
-    console.log(equation)
-    previousText.textContent = equation;
+    equationParser(equation);
+    previousText.textContent = currentText.textContent;
 }
