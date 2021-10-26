@@ -53,7 +53,7 @@ function onKeyUp(event) {
             key = "\u00f7";
         }
         operationInput(key);
-    } else if (numberRegExp.test(key)) {
+    } else if (numberRegExp.test(key) || key === ".") {
         if (!evaluationEnd) {
             currentText.textContent += key;
         } else {
@@ -80,7 +80,7 @@ function btnPress(event) {
     const content = event.currentTarget.textContent;
     if (listOfOperations.includes(content)) {
         operationInput(content);
-    } else if (numberRegExp.test(content)) {
+    } else if (numberRegExp.test(content) || content === ".") {
         if (!evaluationEnd) {
             currentText.textContent += content;
         } else {
@@ -97,9 +97,6 @@ function operationInput(operation) {
     previousText.textContent = equation + operation;
     currentText.textContent = "";
 }
-
-
-
 
 function evaluateExpression() {
     const currentItem = currentText.textContent.replace(/\s/g, "");
