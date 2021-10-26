@@ -36,10 +36,10 @@ class Calculator {
     }
 }
 
-let operationStack,
-    evaluationEnd = false,
-    numberRegExp = /^\d+$/;
-
+let numberStack = [],
+    operationStack = [],
+    numberRegExp = /^\d+$/,
+    evaluationEnd = false;
 
 function onKeyUp(event) {
     let key = event.key;
@@ -53,7 +53,7 @@ function onKeyUp(event) {
             key = "\u00f7";
         }
         operationInput(key);
-    } else if (numberRegExp.test(key) || key === ".") {
+    } else if (numberRegExp.test(key) || (key === "." && !currentText.textContent.includes("."))) {
         if (!evaluationEnd) {
             currentText.textContent += key;
         } else {
@@ -73,6 +73,8 @@ function deleteLast() {
 function clearAll() {
     currentText.textContent = "";
     previousText.textContent = "";
+    numberStack = [];
+    operationStack = [];
 }
 
 function btnPress(event) {
@@ -80,7 +82,7 @@ function btnPress(event) {
     const content = event.currentTarget.textContent;
     if (listOfOperations.includes(content)) {
         operationInput(content);
-    } else if (numberRegExp.test(content) || content === ".") {
+    } else if (numberRegExp.test(content) || (content === "." && !currentText.textContent.includes("."))) {
         if (!evaluationEnd) {
             currentText.textContent += content;
         } else {
@@ -92,30 +94,37 @@ function btnPress(event) {
 }
 
 function operationInput(operation) {
-    let equation = currentText.textContent.replace(/\s/g, "");
-    operationStack = operation;
-    previousText.textContent = equation + operation;
+    let numbers = currentText.textContent.replace(/\s/g, "");
+    numberStack.push(numbers);
+    operationStack.push(operation);
+    previousText.textContent = numbers + operation;
     currentText.textContent = "";
 }
 
 function evaluateExpression() {
-    const currentItem = currentText.textContent.replace(/\s/g, "");
-    const previousItem = previousText.textContent;
-    let equation = previousItem + currentItem;
-    const [val1, val2] = equation.split(operationStack);
-    let result;
-    if (!isNaN(+val1) && !isNaN(+val2) && operationStack) {
-        result = new Calculator(+val1, +val2)[operationStack]();
+    let finalNumber = currentText.textContent.replace(/\s/g, "");
+    if (!finalNumber) {
+        numberStack.push(NaN);
     } else {
-        result = NaN;
+        numberStack.push(finalNumber);
     }
-    if (isNaN(result)) {
-        previousText.textContent = NaN;
-        currentText.textContent = NaN;
-    } else {
-        previousText.textContent = equation + "=";
-        currentText.textContent = result;
+    let result,
+        equation = "";
+    for (let i = 0, n = operationStack.length; i < n; i++) {
+        if (i === 0) {
+            result = new Calculator(+numberStack[i], +numberStack[i + 1])[operationStack[i]]();
+        } else {
+            result = new Calculator(result, +numberStack[i + 1])[operationStack[i]]();
+        }
+        equation += numberStack[i] + operationStack[i];
     }
-    operationStack = "";
+    
+    if (!result) {
+        result = finalNumber;
+    }
+    previousText.textContent = equation + finalNumber + "=";
+    currentText.textContent = result;
     evaluationEnd = true;
+    numberStack = [];
+    operationStack = [];
 }
