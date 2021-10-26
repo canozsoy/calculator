@@ -36,6 +36,10 @@ class Calculator {
     }
 }
 
+let operationStack,
+    evaluationEnd = false,
+    numberRegExp = /^\d+$/;
+
 
 function onKeyUp(event) {
     let key = event.key;
@@ -48,9 +52,15 @@ function onKeyUp(event) {
         } else if (key === "/") {
             key = "\u00f7";
         }
-        currentText.textContent += key;
-    } else if (/\d+/.test(key)) {
-        currentText.textContent += key;
+        operationInput(key);
+    } else if (numberRegExp.test(key)) {
+        if (!evaluationEnd) {
+            currentText.textContent += key;
+        } else {
+            currentText.textContent = key;
+            evaluationEnd = false;
+        }
+
     } else if (key === "=" || key === "Enter") {
         evaluateExpression();
     }
@@ -66,20 +76,49 @@ function clearAll() {
 }
 
 function btnPress(event) {
+    const listOfOperations = ["+", "-", "x", "\u00f7"];
     const content = event.currentTarget.textContent;
-    currentText.textContent += content;
+    if (listOfOperations.includes(content)) {
+        operationInput(content);
+    } else if (numberRegExp.test(content)) {
+        if (!evaluationEnd) {
+            currentText.textContent += content;
+        } else {
+            currentText.textContent = content;
+            evaluationEnd = false;
+        }
+
+    }
 }
 
-function equationParser(expression) {
-    const operationPrecedance = ["-", "+", "x", "\u00f7"];
-    expression = expression.replace(/s/g);
-    const asdf = new Calculator(2, 2);
-    console.log(asdf);
-
+function operationInput(operation) {
+    let equation = currentText.textContent.replace(/\s/g, "");
+    operationStack = operation;
+    previousText.textContent = equation + operation;
+    currentText.textContent = "";
 }
+
+
+
 
 function evaluateExpression() {
-    let equation = currentText.textContent;
-    equationParser(equation);
-    previousText.textContent = currentText.textContent;
+    const currentItem = currentText.textContent.replace(/\s/g, "");
+    const previousItem = previousText.textContent;
+    let equation = previousItem + currentItem;
+    const [val1, val2] = equation.split(operationStack);
+    let result;
+    if (!isNaN(+val1) && !isNaN(+val2) && operationStack) {
+        result = new Calculator(+val1, +val2)[operationStack]();
+    } else {
+        result = NaN;
+    }
+    if (isNaN(result)) {
+        previousText.textContent = NaN;
+        currentText.textContent = NaN;
+    } else {
+        previousText.textContent = equation + "=";
+        currentText.textContent = result;
+    }
+    operationStack = "";
+    evaluationEnd = true;
 }
