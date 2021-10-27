@@ -119,7 +119,7 @@ function evaluateExpression() {
         equation += numberStack[i] + operationStack[i];
     }
     
-    if (!result) {
+    if (isNaN(result) || result === undefined || result === null) {
         result = finalNumber;
     }
     previousText.textContent = equation + finalNumber + "=";
